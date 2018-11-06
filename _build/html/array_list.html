@@ -80,7 +80,12 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="forword.html">0. 写在前面</a></li>
 <li class="toctree-l1"><a class="reference internal" href="chouxiang.html">1. 抽象数据类型和面向对象编程</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">2. 数组和列表</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. 数组和列表</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id4">数组</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">列表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#listarray">用List实现Array</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -147,6 +152,120 @@
             
   <div class="section" id="id1">
 <h1>2. 数组和列表<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>数组和列表在内存空间都是线性存储的，是一种线性结构</p>
+<dl class="docutils">
+<dt>线性结构具有的特点：</dt>
+<dd><ol class="first last arabic simple">
+<li>内存连续</li>
+<li>下标访问</li>
+</ol>
+</dd>
+</dl>
+<p>因为在 <em>python</em> 中list比array常用得多， <a href="#id2"><span class="problematic" id="id3">*</span></a>python*虽然内置了array，但是很少使用，即使使用array，
+很多人也会采用numpy库中的array</p>
+<dl class="docutils">
+<dt><em>python</em> 中 <em>list</em> 相对于 <em>array</em> 的优势在于：</dt>
+<dd><ol class="first last arabic simple">
+<li><em>list</em> 中可以存储各类型的元素，还能够嵌套其他数据结构，而在 <em>array</em> 中元素的类型必须一致</li>
+<li><em>list</em> 可以动态扩容，当预设的列表元素的容量不够时，<em>python</em> 会动态分配新的内存给它，但 <em>array</em> 有从一开始就固定的长度</li>
+<li>还有一些其他待补充的优势</li>
+</ol>
+</dd>
+</dl>
+<p>正是因为这些好处以及python追求简洁优雅的代码风格，所以 <em>list</em> 相较之下更受欢迎</p>
+<hr class="docutils" />
+<div class="section" id="id4">
+<h2>数组<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>python内置的数组类型和其他语言（比如C）中的数组没有区别，通过下面这种方式可以引入python内置的array库</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">array</span> <span class="k">import</span> <span class="n">array</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">,</span><span class="s1">&#39;abcdef&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">&#39;a&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">&#39;b&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">ar</span><span class="p">)</span>
+<span class="go">&lt;class &#39;array.array&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">ar</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">&lt;class &#39;str&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+<span class="go">Help on class array in module array:</span>
+
+<span class="go">class array(builtins.object)</span>
+<span class="go">|  array(typecode [, initializer]) -&gt; array</span>
+<span class="go">|</span>
+<span class="go">|  Return a new array whose items are restricted by typecode, and</span>
+<span class="go">|  initialized from the optional initializer value, which must be a list,</span>
+<span class="go">|  string or iterable over elements of the appropriate type.</span>
+<span class="go">|</span>
+<span class="go">|  Arrays represent basic values and behave very much like lists, except</span>
+<span class="go">|  the type of objects stored in them is constrained. The type is specified</span>
+<span class="go">|  at object creation time by using a type code, which is a single character.</span>
+<span class="go">|  The following type codes are defined:</span>
+<span class="go">|</span>
+<span class="go">|      Type code   C Type             Minimum size in bytes</span>
+<span class="go">|      &#39;b&#39;         signed integer     1</span>
+<span class="go">|      &#39;B&#39;         unsigned integer   1</span>
+<span class="go">|      &#39;u&#39;         Unicode character  2 (see note)</span>
+<span class="go">|      &#39;h&#39;         signed integer     2</span>
+<span class="go">|      &#39;H&#39;         unsigned integer   2</span>
+<span class="go">|      &#39;i&#39;         signed integer     2</span>
+<span class="go">|      &#39;I&#39;         unsigned integer   2</span>
+<span class="go">|      &#39;l&#39;         signed integer     4</span>
+<span class="go">|      &#39;L&#39;         unsigned integer   4</span>
+<span class="go">|      &#39;q&#39;         signed integer     8 (see note)</span>
+<span class="go">|      &#39;Q&#39;         unsigned integer   8 (see note)</span>
+<span class="go">|      &#39;f&#39;         floating point     4</span>
+<span class="go">|      &#39;d&#39;         floating point     8</span>
+
+<span class="go">#############################</span>
+<span class="go">######################后续省略</span>
+</pre></div>
+</div>
+<p>通过上述代码可以看到，构建一个数组，首先要给出数组元素的类型，然后依次给出数组元素。
+通过在shell模式输入 <code class="docutils literal notranslate"><span class="pre">help(array)</span></code> 能看到对于array中的类型声明的对应关系。</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="id5">
+<h2>列表<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>下表中记录的常见的列表操作以及对应的时间复杂度，一方面回忆列表的常用方法，另一方面分析列表的操作效率</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="21%" />
+<col width="66%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>对列表的操作</td>
+<td>时间复杂度</td>
+<td>详解</td>
+</tr>
+<tr class="row-even"><td>__init__</td>
+<td>O(1)</td>
+<td>底层的实现是通过建立PyListObj的对象初始化一个列表,初始化函数的执行效率是O(1)的</td>
+</tr>
+<tr class="row-odd"><td>append</td>
+<td>O(1)</td>
+<td>因为append是每次都在列表尾部加入，所以复杂的为O(1)</td>
+</tr>
+<tr class="row-even"><td>insert</td>
+<td>O(n)</td>
+<td>由于insert方法是在指定索引位置插入，list需要遍历整个列表找到指定位置，然后将插入位置后的元素全部向后挪一位并插入元素,故时间复杂度为O(n)</td>
+</tr>
+<tr class="row-odd"><td>pop</td>
+<td>O(1)</td>
+<td>pop和append正好相反，是删除list尾部的元素并返回该元素，所以pop的时间复杂度和append一致</td>
+</tr>
+<tr class="row-even"><td>remove</td>
+<td>O(n)</td>
+<td>由于remove需要遍历整个list找到需要删除的元素，然后执行删除。并将删除位置处后面的元素全面向前挪一位，故时间复杂度为O(n)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr class="docutils" />
+<div class="section" id="listarray">
+<h2>用List实现Array<a class="headerlink" href="#listarray" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
 
