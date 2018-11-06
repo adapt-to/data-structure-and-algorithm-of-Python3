@@ -84,6 +84,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#id2">抽象数据类型</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">实现规则</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id4">实现举例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">小结</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="array_list.html">2. 数组和列表</a></li>
@@ -161,7 +162,7 @@
 <div><a class="reference internal image-reference" href="_images/chouxiang_1.png"><img alt="_images/chouxiang_1.png" src="_images/chouxiang_1.png" style="width: 300px;" /></a>
 </div></blockquote>
 <p>首先实例化了一个 <em>list</em> 对象 <em>l</em>，然后通过 <em>VsCode</em> 的联想，我们能看到在 <em>l</em> 这个对象中有很多方法。
-你还可以通过下面的方式将其打印出来</p>
+你还可以通过下面的方式将其打印出来：</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span> <span class="c1"># 实例化对象l</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">l</span><span class="p">))</span> <span class="c1"># 打印l中的方法</span>
 <span class="go">[&#39;__add__&#39;, &#39;__class__&#39;, &#39;__contains__&#39;, &#39;__delattr__&#39;, &#39;__delitem__&#39;, &#39;__dir__&#39;, &#39;__doc__&#39;, &#39;__eq__&#39;, &#39;__format__&#39;, &#39;__ge__&#39;, &#39;__getattribute__&#39;, &#39;__getitem__&#39;, &#39;__gt__&#39;, &#39;__hash__&#39;, &#39;__iadd__&#39;, \</span>
@@ -169,13 +170,14 @@
 <span class="go">&#39;__setitem__&#39;, &#39;__sizeof__&#39;, &#39;__str__&#39;, &#39;__subclasshook__&#39;, &#39;append&#39;, &#39;clear&#39;, &#39;copy&#39;, &#39;count&#39;, &#39;extend&#39;, &#39;index&#39;, &#39;insert&#39;, &#39;pop&#39;, &#39;remove&#39;, &#39;reverse&#39;, &#39;sort&#39;]</span>
 </pre></div>
 </div>
-<p>一个list对象中间竟然会包含这么多方法。这里的l对象就是一个抽象的数据类型(ADT)</p>
+<p>为什么上面的 <em>l</em> 对象中会有这么多方法，那是因为将它实例化的 <strong>数据结构</strong>–<em>list</em> 里面就封装了这些方法。
+这里的 <em>list</em> 对象就是一个抽象的数据类型( 简称 <em>ADT</em> )</p>
 </div>
 <hr class="docutils" />
 <div class="section" id="id3">
 <h2>实现规则<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p>如何用python代码，自己实现一个抽象数据类型呢？</p>
-<p>其实你别看上面这么多方法，其实它是有迹可循的。</p>
+<p>见识了数据类型的奇妙，那么如何使用python代码构建自己的抽象数据类型呢？</p>
+<p>其实你别看上面这么多方法，它都是有迹可循的</p>
 <a class="reference internal image-reference" href="_images/chouxiang_2.png"><img alt="_images/chouxiang_2.png" src="_images/chouxiang_2.png" style="width: 200px;" /></a>
 <dl class="docutils">
 <dt>上图的结构是构建ADT必备的框架，其中：</dt>
@@ -256,7 +258,19 @@
 </div>
 <p>上述代码虽然实现了一个 <em>Bag</em> 的类型，但是里面使用的代码效率上没有 <em>python</em> 自身的数据类型这么高。并且上述代码还有待完善的地方，比如
 在 <code class="docutils literal notranslate"><span class="pre">remove</span></code> 方法中如果加上判断移除的元素是否存在会更好。</p>
-<p>动手实践比空想实际的多，快动手写写吧！</p>
+<p>动手实践比空想实际的多，快自己动手写写吧！</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="id5">
+<h2>小结<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>书写抽象数据类型需要注意的一些地方：</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<ol class="last arabic simple">
+<li>选用正确的DataStructure，选择标准为：该数据结构能够操作method中所列出的方法</li>
+<li>能否支持高效的操作，即代码的执行效率如何 （考虑时间、空间复杂度）</li>
+</ol>
+</div>
 </div>
 </div>
 

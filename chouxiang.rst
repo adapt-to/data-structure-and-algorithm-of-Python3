@@ -22,7 +22,7 @@
 '__setitem__', '__sizeof__', '__str__', '__subclasshook__', 'append', 'clear', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
 
 为什么上面的 *l* 对象中会有这么多方法，那是因为将它实例化的 **数据结构**--*list* 里面就封装了这些方法。
-这里的 *list* 对象就是一个抽象的数据类型(ADT)
+这里的 *list* 对象就是一个抽象的数据类型( 简称 *ADT* )
 
 ------------------------------------------------------
 
