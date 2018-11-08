@@ -265,6 +265,67 @@
 <hr class="docutils" />
 <div class="section" id="listarray">
 <h2>用List实现Array<a class="headerlink" href="#listarray" title="Permalink to this headline">¶</a></h2>
+<p>如何使用list实现自己的array，首先先来看一下python内置的array中有什么方法</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">array</span> <span class="k">import</span> <span class="n">array</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">dir</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+<span class="go">[&#39;__add__&#39;, &#39;__class__&#39;, &#39;__contains__&#39;, &#39;__copy__&#39;, &#39;__deepcopy__&#39;, &#39;__delattr__&#39;, &#39;__delitem__&#39;, &#39;__dir__&#39;, &#39;__doc__&#39;, &#39;__eq__&#39;, &#39;__format__&#39;, &#39;__ge__&#39;, \</span>
+<span class="go">&#39;__getattribute__&#39;, &#39;__getitem__&#39;, &#39;__gt__&#39;, &#39;__hash__&#39;, &#39;__iadd__&#39;, &#39;__imul__&#39;, &#39;__init__&#39;, &#39;__init_subclass__&#39;, &#39;__iter__&#39;, &#39;__le__&#39;, &#39;__len__&#39;, &#39;__lt__&#39;, \</span>
+<span class="go">&#39;__mul__&#39;, &#39;__ne__&#39;, &#39;__new__&#39;, &#39;__reduce__&#39;, &#39;__reduce_ex__&#39;, &#39;__repr__&#39;, &#39;__rmul__&#39;, &#39;__setattr__&#39;, &#39;__setitem__&#39;, &#39;__sizeof__&#39;, &#39;__str__&#39;, &#39;__subclasshook__&#39;, \</span>
+<span class="go">&#39;append&#39;, &#39;buffer_info&#39;, &#39;byteswap&#39;, &#39;count&#39;, &#39;extend&#39;, &#39;frombytes&#39;, &#39;fromfile&#39;, &#39;fromlist&#39;, &#39;fromstring&#39;, &#39;fromunicode&#39;, &#39;index&#39;, &#39;insert&#39;, &#39;itemsize&#39;, &#39;pop&#39;, \</span>
+<span class="go">&#39;remove&#39;, &#39;reverse&#39;, &#39;tobytes&#39;, &#39;tofile&#39;, &#39;tolist&#39;, &#39;tostring&#39;, &#39;tounicode&#39;, &#39;typecode&#39;]</span>
+</pre></div>
+</div>
+<p>上面是python内置的很多方法，具体方法详解请参考 <a class="reference external" href="https://www.rddoc.com/doc/Python/3.6.0/zh/library/array/#array.array">array — 数值的有效数组</a> 自己实现的话就挑一些常用的方法实现，代码如下:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#coding:utf-8</span>
+
+<span class="k">class</span> <span class="nc">Array</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span> <span class="c1"># 指定数组的长度，默认为20</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxsize</span> <span class="o">=</span> <span class="n">maxsize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">maxsize</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># 查看数组长度</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxsize</span><span class="p">:</span> <span class="c1"># 索引从0开始</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;out of the index&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxsize</span><span class="p">:</span> <span class="c1"># 索引从0开始</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;out of the index&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+
+    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">item</span>
+
+    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">item</span><span class="p">):</span> <span class="c1"># 尾部添加</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span> <span class="o">+=</span> <span class="p">[</span><span class="n">item</span><span class="p">]</span>
+
+<span class="c1"># 测试ADT</span>
+<span class="n">ar</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">ar</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">ar</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span>
+<span class="k">assert</span> <span class="n">ar</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span>
+
+<span class="n">ar</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">ar</span><span class="p">)</span> <span class="o">==</span> <span class="mi">11</span>
+<span class="k">assert</span> <span class="n">ar</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+
+<span class="n">ar</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+<span class="k">assert</span> <span class="n">ar</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span>  <span class="c1"># 这里不要用 == ，用is会更好</span>
+</pre></div>
+</div>
+<p>如果还想实现其他的方法，可以先在python中测试一下内置array的方法具体作用，然后自己实现该方法时就知道该如何用代码实现。
+或参考关于内置 <code class="docutils literal notranslate"><span class="pre">array</span></code> 库的官方文档中对于方法的介绍。</p>
 </div>
 </div>
 

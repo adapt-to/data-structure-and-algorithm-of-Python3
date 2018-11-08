@@ -102,3 +102,66 @@ remove           O(n)                      由于remove需要遍历整个list找
 
 用List实现Array
 =============================================
+
+如何使用list实现自己的array，首先先来看一下python内置的array中有什么方法
+
+>>> from array import array
+>>> dir(array)
+['__add__', '__class__', '__contains__', '__copy__', '__deepcopy__', '__delattr__', '__delitem__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', \
+'__getattribute__', '__getitem__', '__gt__', '__hash__', '__iadd__', '__imul__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', \
+'__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__rmul__', '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', \
+'append', 'buffer_info', 'byteswap', 'count', 'extend', 'frombytes', 'fromfile', 'fromlist', 'fromstring', 'fromunicode', 'index', 'insert', 'itemsize', 'pop', \
+'remove', 'reverse', 'tobytes', 'tofile', 'tolist', 'tostring', 'tounicode', 'typecode']
+
+上面是python内置的很多方法，具体方法详解请参考 `array — 数值的有效数组 <https://www.rddoc.com/doc/Python/3.6.0/zh/library/array/#array.array>`_ \
+自己实现的话就挑一些常用的方法实现，代码如下::
+
+ #coding:utf-8
+
+ class Array():
+     def __init__(self, maxsize=20): # 指定数组的长度，默认为20
+         self.maxsize = maxsize
+         self._items = [None] * maxsize
+
+     def __len__(self): # 查看数组长度
+         return len(self._items)
+
+     def __getitem__(self, index):
+         if index >= self.maxsize: # 索引从0开始
+             raise Exception('out of the index')
+         return self._items[index]
+    
+     def __setitem__(self, index, item):
+         if index >= self.maxsize: # 索引从0开始
+             raise Exception('out of the index')
+         self._items[index] = item
+     
+     def clear(self):
+         for i,value in enumerate(self._items):
+             self._items[i] = None
+
+     def __iter__(self):
+         for item in self._items:
+             yield item
+
+     def append(self,item): # 尾部添加
+         self._items += [item]
+
+ # 测试ADT
+ ar = Array(10)
+ for i in range(5):
+     ar[i] = i
+ 
+ assert len(ar) == 10
+ assert ar[4] == 4
+ 
+ ar.append(1)
+ assert len(ar) == 11
+ assert ar[10] == 1
+
+ ar.clear()
+
+ assert ar[4] is None  # 这里不要用 == ，用is会更好 
+
+如果还想实现其他的方法，可以先在python中测试一下内置array的方法具体作用，然后自己实现该方法时就知道该如何用代码实现。
+或参考关于内置 ``array`` 库的官方文档中对于方法的介绍。
